@@ -31,7 +31,9 @@ class AccessoriesAdmin(admin.ModelAdmin):
 
 
 class DepartmentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('pk', 'department_name')
+    list_display_links = ('department_name',)
+    search_fields = ('department_name',)
 
 
 class CommentsAdmin(admin.ModelAdmin):

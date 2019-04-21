@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+        <link rel="stylesheet" type="text/css" href="{% static 'store/style.css' %}">
+        <title>{% block title %}Catalog{% endblock %} - Choose department</title>
+    </head>
+    <body>
+        <header>
+            <h1>Catalog</h1>
+        </header>
+        <nav>
+            <a href="{% url 'index' %}">Navigator</a>
+            {% for department in departments %}
+            <a href="{% url 'by_department' department.pk %}">{{ department.department_name }}</a>
+            {% endfor %}
+        </nav>
+        <section>
+            {% block content %}
+            {% endblock %}
+        </section>
+    </body>
+</html>

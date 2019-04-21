@@ -2,7 +2,6 @@ from django.db import models
 
 
 import json
-import decimal
 
 
 class Store(models.Model):
@@ -89,7 +88,7 @@ class Currency(models.Model):
                                           db_index=True, verbose_name="Published date")
 
     def __str__(self):
-        return f"Currency (USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
+        return f"(USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
 
     class Meta:
         verbose_name_plural = "Currency"
@@ -126,7 +125,12 @@ class Accessories(models.Model):
 
 
 class Department(models.Model):
+    objects = models.Manager()
+
     department_name = models.CharField(null=True, blank=True, max_length=200)
+
+    def __str__(self):
+        return f"Department: {self.department_name}"
 
     class Meta:
         verbose_name_plural = "Departments"
