@@ -2,29 +2,48 @@ from django.db import models
 
 
 import json
+import decimal
 
 
 class Store(models.Model):
     objects = models.Manager()
+    ITEM_TYPES = (
+        ('ag', 'acoustic guitar'),
+        ('eg', 'electric guitar'),
+        ('uk', 'ukulele'),
+    )
 
     prod_title = models.CharField(max_length=50, verbose_name="Product name")
-    prod_img = models.ImageField(blank=True, null=True, upload_to="prod_photos/%Y/%m/%D/",
+    prod_img = models.ImageField(blank=True, null=True, upload_to="prod_photos/%Y%m%D/",
                                  verbose_name="Product image")
+    prod_type = models.CharField(max_length=20, null=True, blank=True, choices=ITEM_TYPES, verbose_name="Type")
     prod_description = models.TextField(null=True, blank=True, verbose_name="Product description")
     prod_materials = models.CharField(max_length=250, verbose_name="Made of", null=True, blank=True)
-    prod_manufacturer_id = models.ForeignKey("Manufacturer", null=True,
-                                             on_delete=models.CASCADE, verbose_name="Manufacturer")
+    prod_manufacturer_id = models.ForeignKey("Manufacturer", null=True, blank=True,
+                                             on_delete=models.SET_NULL, verbose_name="Manufacturer")
     prod_year = models.CharField(max_length=4, null=True, blank=True)
-    prod_currency = models.ForeignKey("Currency", on_delete=models.PROTECT, verbose_name="Currency")
-    prod_price = models.DecimalField(max_digits=10, decimal_places=2)  # need to calculated!
+    prod_currency_info = models.ForeignKey("Currency", blank=True, null=True,
+                                           on_delete=models.SET_NULL, verbose_name=" Current currency")
+    prod_origin_price = models.DecimalField(null=True, max_digits=10, decimal_places=2,
+                                            verbose_name="Original price")  # need to calculated!
     prod_availability = models.BooleanField(null=True, default=True)
-    prod_analog = models.ForeignKey("Analog", null=True, on_delete=models.CASCADE, verbose_name="Analog")
-    prod_accessories = models.ForeignKey("Accessories", null=True, on_delete=models.CASCADE, verbose_name="Accessories")
-    prod_department = models.ForeignKey("Department", null=True, on_delete=models.CASCADE, verbose_name="Department")
-    prod_comments = models.ForeignKey("Comments", null=True, on_delete=models.CASCADE, verbose_name="Comments")
-    prod_rate = models.IntegerField(null=True, blank=True, verbose_name="Rate")  # need to calculated!
+    prod_analog = models.ForeignKey("Analog", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Analog")
+    prod_accessories = models.ForeignKey("Accessories", null=True, blank=True, on_delete=models.SET_NULL,
+                                         verbose_name="Accessories")
+    prod_department = models.ForeignKey("Department", null=True, blank=True, on_delete=models.SET_NULL,
+                                        verbose_name="Department")
+    prod_comments = models.ForeignKey("Comments", null=True, blank=True, on_delete=models.SET_NULL,
+                                      verbose_name="Comments")
+    prod_rate = models.DecimalField(max_digits=3, decimal_places=2, null=True,
+                                    blank=True, verbose_name="Rate")  # need to calculated!
 
-    # place to add cal funcs
+    def sell_price(self):
+        price = self.prod_origin_price
+        # price += "1000"
+        return type(price)
+
+    def __str__(self):
+        return f"Product (name: {self.prod_title},  price: {self.prod_origin_price})"
 
     class Meta:
         verbose_name_plural = "Products"
@@ -34,13 +53,25 @@ class Store(models.Model):
 
 class Manufacturer(models.Model):
     objects = models.Manager()
+    types = (
+        ('g', 'guitars'),
+        ('d', 'drums'),
+        ('k', 'keyboards'),
+        ('u', 'ukulele'),
+        ('a', 'all'),
+    )
 
-    manufac_name = models.CharField(max_length=50, db_index=True, verbose_name="Manufacturer name")
-    manufac_country = models.CharField(max_length=60, verbose_name="Country")
-    manufac_city = models.CharField(max_length=60, verbose_name="City")
-    manufac_address = models.CharField(max_length=150, verbose_name="Address")
-    manufac_email = models.EmailField(verbose_name="Email")
-    manufac_phone = models.CharField(max_length=65, verbose_name="Contact phone")
+    manufac_name = models.CharField(max_length=50, null=True, blank=True, db_index=True, verbose_name="Company name")
+    manufac_type = models.CharField(max_length=20, null=True, blank=True, choices=types, verbose_name="Type")
+    manufac_site = models.URLField(null=True, blank=True, verbose_name="Web-site")
+    manufac_country = models.CharField(max_length=60, null=True, blank=True, verbose_name="Country")
+    manufac_city = models.CharField(max_length=60, null=True, blank=True, verbose_name="City")
+    manufac_address = models.CharField(max_length=150, null=True, blank=True, verbose_name="Address")
+    manufac_email = models.EmailField(null=True, blank=True, verbose_name="Email")
+    manufac_phone = models.CharField(max_length=65, null=True, blank=True, verbose_name="Contact phone")
+
+    def __str__(self):
+        return f"{self.manufac_name}, {self.manufac_country}"
 
     class Meta:
         verbose_name_plural = "Manufacturers"
@@ -49,17 +80,25 @@ class Manufacturer(models.Model):
 
 
 class Currency(models.Model):
-    cur_USD = models.DecimalField(max_digits=4, decimal_places=2)
-    cur_EUR = models.DecimalField(max_digits=4, decimal_places=2)
-    cur_UAH = models.DecimalField(max_digits=4, decimal_places=2)
+    objects = models.Manager()
+
+    cur_USD = models.DecimalField(max_digits=10, decimal_places=8, default=0.0)
+    cur_EUR = models.DecimalField(max_digits=10, decimal_places=8, default=0.0)
+    cur_RUB = models.DecimalField(max_digits=10, decimal_places=8, default=0.0)
+    published_date = models.DateTimeField(null=True, blank=True, auto_now_add=True,
+                                          db_index=True, verbose_name="Published date")
+
+    def __str__(self):
+        return f"Currency (USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
 
     class Meta:
+        verbose_name_plural = "Currency"
         verbose_name = "Currency"
-        ordering = ["-cur_USD"]
+        ordering = ["-published_date"]
 
 
 class Analog(models.Model):
-    analog_id_list = models.CharField(max_length=200)
+    analog_id_list = models.CharField(null=True, blank=True, max_length=200)
 
     def set_analogs(self, x):
         self.analog_id_list = json.dumps(x)
@@ -73,7 +112,7 @@ class Analog(models.Model):
 
 
 class Accessories(models.Model):
-    accessories_id_list = models.CharField(max_length=200)
+    accessories_id_list = models.CharField(null=True, blank=True, max_length=200)
 
     def set_accessories(self, x):
         self.accessories_id_list = json.dumps(x)
@@ -87,7 +126,7 @@ class Accessories(models.Model):
 
 
 class Department(models.Model):
-    department_name = models.CharField(max_length=200)
+    department_name = models.CharField(null=True, blank=True, max_length=200)
 
     class Meta:
         verbose_name_plural = "Departments"
