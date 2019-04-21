@@ -2,7 +2,6 @@ from django.db import models
 
 
 import json
-import decimal
 
 
 class Store(models.Model):
@@ -11,6 +10,11 @@ class Store(models.Model):
         ('ag', 'acoustic guitar'),
         ('eg', 'electric guitar'),
         ('uk', 'ukulele'),
+        ('mic', 'mics'),
+        ('keyb', 'keyboards'),
+        ('drm', 'drums'),
+        ('acc', 'accessories'),
+        ('si', 'sound insulation'),
     )
 
     prod_title = models.CharField(max_length=50, verbose_name="Product name")
@@ -58,7 +62,9 @@ class Manufacturer(models.Model):
         ('d', 'drums'),
         ('k', 'keyboards'),
         ('u', 'ukulele'),
-        ('a', 'all'),
+        ('m', 'mics'),
+        ('s', 'sound insulation'),
+        ('a', 'all')
     )
 
     manufac_name = models.CharField(max_length=50, null=True, blank=True, db_index=True, verbose_name="Company name")
@@ -89,7 +95,7 @@ class Currency(models.Model):
                                           db_index=True, verbose_name="Published date")
 
     def __str__(self):
-        return f"Currency (USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
+        return f"(USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
 
     class Meta:
         verbose_name_plural = "Currency"
@@ -126,7 +132,12 @@ class Accessories(models.Model):
 
 
 class Department(models.Model):
+    objects = models.Manager()
+
     department_name = models.CharField(null=True, blank=True, max_length=200)
+
+    def __str__(self):
+        return self.department_name
 
     class Meta:
         verbose_name_plural = "Departments"

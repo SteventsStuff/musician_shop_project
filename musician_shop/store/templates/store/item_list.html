@@ -1,0 +1,15 @@
+{% extends "layouts/basic.html" %}
+
+{% block content %}
+{% for item in store %}
+<a href=""><div class="store_item">
+    <h2>{{ item.prod_title }}</h2>
+    <p>{{ item.prod_img }}</p>
+    <p>{{ item.prod_type }}</p>
+    <p>{{ item.prod_description }}</p>
+    <p>{{ item.prod_materials }}</p>
+    <p>{{ item.prod_availability }}</p>
+    <p>{{ item.prod_analog }}</p>
+</div></a>
+{% endfor %}
+{% endblock %}
