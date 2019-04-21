@@ -3,11 +3,12 @@ from django.conf import settings
 from django.views.static import serve
 from django.conf.urls import url
 
-from .views import index
+from .views import *
 
 
 urlpatterns = [
     path("", index, name="index"),
+    path("update_database", test_cur, name="db_update"),
 ]
 
 if settings.DEBUG:
