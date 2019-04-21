@@ -2,20 +2,36 @@ header h1{
 	font-size: 40pt;
 	text-transform: uppercase;
 	text-align: center;
-	//background: url("bg.png") left / auto 100% no-repeat;
+	background: url("bg.png") left / auto 100% no-repeat;
 }
 
 nav{
+	background-color: #ccc;
 	font-size: 16pt;
-	width: 50px;
+	width: 150px;
+	padding: 10px;
 	float: left;
 }
 
 nav a {
     display: block;
+    background-color: #cbc;
     margin: 10px 0px;
 }
 
 section{
-	margin-left: 170px;
+	background-color: #fcf;
+	display: block;
+	margin-left: 200px;
+	width: 1600px;
+}
+
+section div{
+	display: inline-block;
+	overflow: auto;
+	background-color: #bcb;
+	margin: 20px;
+	padding: 15px;
+	width: 450px;
+	height: 350px;
 }

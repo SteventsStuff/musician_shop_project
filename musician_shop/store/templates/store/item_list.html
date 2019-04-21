@@ -2,7 +2,7 @@
 
 {% block content %}
 {% for item in store %}
-<div class="store_item">
+<a href=""><div class="store_item">
     <h2>{{ item.prod_title }}</h2>
     <p>{{ item.prod_img }}</p>
     <p>{{ item.prod_type }}</p>
@@ -10,6 +10,6 @@
     <p>{{ item.prod_materials }}</p>
     <p>{{ item.prod_availability }}</p>
     <p>{{ item.prod_analog }}</p>
-</div>
+</div></a>
 {% endfor %}
 {% endblock %}

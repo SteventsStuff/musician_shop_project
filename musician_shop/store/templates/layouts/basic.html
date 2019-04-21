@@ -12,7 +12,7 @@
             <h1>Catalog</h1>
         </header>
         <nav>
-            <a href="{% url 'index' %}">Navigator</a>
+            <a href="{% url 'index' %}">All products</a>
             {% for department in departments %}
             <a href="{% url 'by_department' department.pk %}">{{ department.department_name }}</a>
             {% endfor %}

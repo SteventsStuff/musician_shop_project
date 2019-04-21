@@ -5,9 +5,9 @@
 {% block content %}
 <h2>Department: {{current_department.department_name}}</h2>
 {% for item in store %}
-<div>
+<a href=""><div>
     <h2>{{ item.prod_title }}</h2>
     <p>{{ item.prod_description }}</p>
-</div>
+</div></a>
 {% endfor %}
 {% endblock %}
