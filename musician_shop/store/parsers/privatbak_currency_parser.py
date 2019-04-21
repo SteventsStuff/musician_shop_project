@@ -15,8 +15,9 @@ def main():
             date_mode = "yesterday"
             continue
 
-    curr_list = parse_pb_data(privatbank_dict)
-    return curr_list
+    curr_dict = parse_pb_data(privatbank_dict)
+    print(curr_dict)
+    return curr_dict
 
 
 def validate_data(privatbank_dict):
@@ -49,9 +50,13 @@ def parse_pb_data(privatbank_dict):
     all_currencies = privatbank_dict["exchangeRate"]
     all_currencies.pop(0)
 
-    currency_list = []
+    currency_dict= {}
     for current_currency_dict in all_currencies:
-        if current_currency_dict["currency"] in ("EUR", "USD", "RUB"):
-            currency_list.append((current_currency_dict["currency"], current_currency_dict["saleRateNB"]))
+        curr_keys = current_currency_dict.keys()
+        if "currency" not in curr_keys:
+            continue
 
-    return currency_list
+        if current_currency_dict["currency"] in ("EUR", "USD", "RUB"):
+            currency_dict[current_currency_dict["currency"]] = current_currency_dict["saleRateNB"]
+
+    return currency_dict

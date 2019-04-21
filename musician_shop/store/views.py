@@ -22,12 +22,13 @@ def by_department(request, department_id):
 
 
 def test_cur(request):
-    curr_list = main()
-    if len(curr_list) == 3:
+    curr_dict = main()
+
+    if len(curr_dict) == 3:
         updated_cur = Currency.objects.all()[0]
-        updated_cur.cur_RUB = curr_list[0][1]
-        updated_cur.cur_USD = curr_list[1][1]
-        updated_cur.cur_EUR = curr_list[2][1]
+        updated_cur.cur_RUB = curr_dict["RUB"]
+        updated_cur.cur_USD = curr_dict["USD"]
+        updated_cur.cur_EUR = curr_dict["EUR"]
         updated_cur.published_date = datetime.datetime.now()
         updated_cur.save()
 
@@ -35,4 +36,4 @@ def test_cur(request):
             store_item.prod_currency_info = updated_cur
             store_item.save()
 
-    return HttpResponse(str(curr_list))
+    return HttpResponse(str(curr_dict))

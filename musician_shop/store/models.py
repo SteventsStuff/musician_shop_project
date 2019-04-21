@@ -10,6 +10,11 @@ class Store(models.Model):
         ('ag', 'acoustic guitar'),
         ('eg', 'electric guitar'),
         ('uk', 'ukulele'),
+        ('mic', 'mics'),
+        ('keyb', 'keyboards'),
+        ('drm', 'drums'),
+        ('acc', 'accessories'),
+        ('si', 'sound insulation'),
     )
 
     prod_title = models.CharField(max_length=50, verbose_name="Product name")
@@ -57,7 +62,9 @@ class Manufacturer(models.Model):
         ('d', 'drums'),
         ('k', 'keyboards'),
         ('u', 'ukulele'),
-        ('a', 'all'),
+        ('m', 'mics'),
+        ('s', 'sound insulation'),
+        ('a', 'all')
     )
 
     manufac_name = models.CharField(max_length=50, null=True, blank=True, db_index=True, verbose_name="Company name")
@@ -130,7 +137,7 @@ class Department(models.Model):
     department_name = models.CharField(null=True, blank=True, max_length=200)
 
     def __str__(self):
-        return f"Department: {self.department_name}"
+        return self.department_name
 
     class Meta:
         verbose_name_plural = "Departments"
