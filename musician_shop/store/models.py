@@ -7,18 +7,18 @@ import json
 class Store(models.Model):
     objects = models.Manager()
     ITEM_TYPES = (
-        ('ag', 'acoustic guitar'),
-        ('eg', 'electric guitar'),
-        ('uk', 'ukulele'),
-        ('mic', 'mics'),
-        ('keyb', 'keyboards'),
-        ('drm', 'drums'),
-        ('acc', 'accessories'),
-        ('si', 'sound insulation'),
+        ('Акустическая гитара', 'acoustic guitar'),
+        ('Электрогитара', 'electric guitar'),
+        ('Укулеле', 'ukulele'),
+        ('Микрофон', 'mics'),
+        ('Синтезакоры', 'keyboards'),
+        ('Барабаны', 'drums'),
+        ('Аксессуары', 'accessories'),
+        ('Звукоизоляция', 'sound insulation'),
     )
 
     prod_title = models.CharField(max_length=50, verbose_name="Product name")
-    prod_img = models.ImageField(blank=True, null=True, upload_to="prod_photos/%Y%m%D/",
+    prod_img = models.ImageField(blank=True, null=True, upload_to="prod_photos/",
                                  verbose_name="Product image")
     prod_type = models.CharField(max_length=20, null=True, blank=True, choices=ITEM_TYPES, verbose_name="Type")
     prod_description = models.TextField(null=True, blank=True, verbose_name="Product description")
@@ -41,6 +41,12 @@ class Store(models.Model):
     prod_rate = models.DecimalField(max_digits=3, decimal_places=2, null=True,
                                     blank=True, verbose_name="Rate")  # need to calculated!
 
+    def print_availability(self):
+        if self.prod_availability:
+            return "Есть на складе!"
+        else:
+            return "Нет в наличии"
+
     def sell_price(self):
         price = self.prod_origin_price
         # price += "1000"
@@ -52,7 +58,7 @@ class Store(models.Model):
     class Meta:
         verbose_name_plural = "Products"
         verbose_name = "Product"
-        ordering = ["-prod_title"]
+        ordering = ["pk"]
 
 
 class Manufacturer(models.Model):
