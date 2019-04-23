@@ -4,9 +4,10 @@ from .models import *
 
 
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'prod_title', 'prod_img', 'prod_type', 'prod_manufacturer_id', 'prod_description',
-                    'prod_origin_price', 'sell_price', 'prod_department', 'prod_currency_info', 'prod_rate')
-    list_display_links = ('prod_title', 'prod_description')
+    list_display = ('pk', 'prod_title', 'prod_year', 'prod_materials', 'prod_type', 'prod_manufacturer_id', 'prod_origin_price',
+                    'prod_department', 'prod_rate')
+    list_display_links = ('prod_title',)
+    list_filter = ('prod_type', 'prod_manufacturer_id', 'prod_department', 'prod_rate')
     search_fields = ('prod_title', 'prod_description',)
 
 

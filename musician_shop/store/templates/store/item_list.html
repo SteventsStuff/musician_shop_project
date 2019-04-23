@@ -2,14 +2,18 @@
 
 {% block content %}
 {% for item in store %}
-<a href=""><div class="store_item">
-    <h2>{{ item.prod_title }}</h2>
-    <p>{{ item.prod_img }}</p>
-    <p>{{ item.prod_type }}</p>
-    <p>{{ item.prod_description }}</p>
-    <p>{{ item.prod_materials }}</p>
-    <p>{{ item.prod_availability }}</p>
-    <p>{{ item.prod_analog }}</p>
-</div></a>
+<div class="store_item">
+    <a href=""><div class="item-main-prop"><img src="../../../media/{{ item.prod_img }}" alt="No photo"></div></a>
+    <div class="item-main-prop pr-title">{{ item.prod_title }}</div>
+    <div class="item-main-prop"><strong>Тип:</strong> {{ item.prod_type }}</div>
+    <div class="item-main-prop"><strong>Материалы:</strong> {{ item.prod_materials }}</div>
+    <div class="item-main-prop"><strong>Наличие:</strong> {{ item.print_availability }}</div>
+    <div class="item-main-prop"><strong>Цена:</strong> <span class="price">{{ item.prod_origin_price }}</span>	</div>
+    <a href=""><div class="prod-description item-main-prop"><strong>О товаре</strong></div></a>
+    <div class="buy-analog-block">
+    	<a href=""><div class="buy-btn"><strong>Купить</strong></div></a>
+    	<a href="{{ item.prod_analog }}"><div class="analog-btn"><strong>Аналог</strong></div></a>
+	</div>
+</div>
 {% endfor %}
 {% endblock %}
