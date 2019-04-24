@@ -1,0 +1,16 @@
+.prod_description_block, .comments{
+	width: 1221px;
+}
+
+.product_description,
+.manufac,
+.assesories,
+.analog,
+.comments{
+	margin-top: 15px;
+	background-color: #FFF;
+}
+
+.product_description{
+	margin-top: 0;
+}

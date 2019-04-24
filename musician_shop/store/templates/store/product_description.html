@@ -1,0 +1,39 @@
+{% extends "layouts/basic.html" %}
+
+{% block title %} {{ current_product.prod_title }} {% endblock %}
+
+{% block content %}
+<div class="dep-name">
+	<h2>Товар: {{ current_product.prod_title }} </h2>
+</div>
+<div class="prod_description_block">
+	<div class="product_description">
+		<div class="prod_img"><img src="../../../media/{{ current_product.prod_img }}" alt="No photo"></div>
+		<div class="full_info">
+			<div>Тип продукта: {{ current_product.prod_type }}</div>
+			<div>Тип продукта: {{ current_product.pk }}</div>
+			<div>Описание: {{ current_product.prod_description }}</div>
+			<div>Материалы: {{ current_product.print_materials }}</div>
+			<div>Год производства: {{ current_product.prod_year }}</div>
+			<div>Цена: {{ current_product.prod_updated_price }} UAH</div>
+			<div>Наличие товара: {{ current_product.print_availability }}</div>
+			<div class="rate">
+				<div class="cur-rate">
+					Рейтинг: {{ current_product.prod_rate }}
+				</div>
+				<a href=""><div class="like">Хороший товар</div></a>
+				<a href=""><div class="dis">Плохой товар</div></a>
+			</div>
+			
+		</div>
+	</div>
+	<div class="manufac">
+		<div>{{ prod_manufacturer.manufac_name }}, {{ prod_manufacturer.manufac_country }}</div>
+		<div>{{ prod_manufacturer.manufac_email }}</div>
+		<div>{{ prod_manufacturer.manufac_phone }}</div>	
+	</div>
+	<div class="assesories"></div>
+	<div class="analog"></div>
+	<div class="comments"></div>
+</div>
+{% endblock %}

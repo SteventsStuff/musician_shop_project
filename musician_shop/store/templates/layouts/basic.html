@@ -9,7 +9,7 @@
     </head>
     <body>
         <header id="get-your-ass-back-here">
-            <h1>Музкаталог</h1>
+            <h1><a href="">Музкаталог</a></h1>
         </header>
         <section id="center-content">
             <div id="nav-content">
@@ -17,7 +17,7 @@
                     <a href="{% url 'index' %}">Все товары</a>
                     <hr>
                     {% for department in departments %}
-                    <a href="{% url 'by_department' department.pk %}">{{ department.department_name }}</a>
+                    <a href="{% url 'by_department' department.department_name %}" class="nav-deps">{{ department.department_name }}</a>
                     {% endfor %}
                     <hr>
                     <a href="">Login</a>

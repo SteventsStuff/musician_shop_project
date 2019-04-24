@@ -18,8 +18,8 @@ class Store(models.Model):
     )
 
     prod_title = models.CharField(max_length=50, verbose_name="Product name")
-    prod_img = models.ImageField(blank=True, null=True, upload_to="prod_photos/",
-                                 verbose_name="Product image")
+    prod_url = models.CharField(max_length=50, verbose_name="Product_URL", blank=True, null=True)
+    prod_img = models.ImageField(blank=True, null=True, upload_to="prod_photos/", verbose_name="Product image")
     prod_type = models.CharField(max_length=20, null=True, blank=True, choices=ITEM_TYPES, verbose_name="Type")
     prod_description = models.TextField(null=True, blank=True, verbose_name="Product description")
     prod_materials = models.CharField(max_length=250, verbose_name="Made of", null=True, blank=True)
@@ -28,8 +28,8 @@ class Store(models.Model):
     prod_year = models.CharField(max_length=4, null=True, blank=True)
     prod_currency_info = models.ForeignKey("Currency", blank=True, null=True,
                                            on_delete=models.SET_NULL, verbose_name=" Current currency")
-    prod_origin_price = models.DecimalField(null=True, max_digits=10, decimal_places=2,
-                                            verbose_name="Original price")  # need to calculated!
+    prod_origin_price = models.DecimalField(null=True, max_digits=10, decimal_places=2, verbose_name="Original price")
+    prod_updated_price = models.DecimalField(null=True, max_digits=10, decimal_places=2, verbose_name="Original price")
     prod_availability = models.BooleanField(null=True, default=True)
     prod_analog = models.ForeignKey("Analog", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Analog")
     prod_accessories = models.ForeignKey("Accessories", null=True, blank=True, on_delete=models.SET_NULL,
@@ -38,14 +38,19 @@ class Store(models.Model):
                                         verbose_name="Department")
     prod_comments = models.ForeignKey("Comments", null=True, blank=True, on_delete=models.SET_NULL,
                                       verbose_name="Comments")
-    prod_rate = models.DecimalField(max_digits=3, decimal_places=2, null=True,
-                                    blank=True, verbose_name="Rate")  # need to calculated!
+    prod_rate = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True, verbose_name="Rate")
 
     def print_availability(self):
         if self.prod_availability:
             return "Есть на складе!"
         else:
             return "Нет в наличии"
+
+    def print_materials(self):
+        if self.prod_materials == "-":
+            return "Нету информации"
+        else:
+            return self.prod_materials
 
     def sell_price(self):
         price = self.prod_origin_price
@@ -101,7 +106,8 @@ class Currency(models.Model):
                                           db_index=True, verbose_name="Published date")
 
     def __str__(self):
-        return f"(USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
+        # return f"(USD: {self.cur_USD},  EUR: {self.cur_EUR}, RUB: {self.cur_RUB})"
+        return f"(USD: {self.cur_USD})"
 
     class Meta:
         verbose_name_plural = "Currency"

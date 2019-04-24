@@ -3,7 +3,7 @@ import json
 import urllib.request
 
 
-def main():
+def get_privabank_currency():
     date_mode = "today"
     while True:
         today_date = set_date(date_mode)

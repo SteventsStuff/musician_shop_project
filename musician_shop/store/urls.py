@@ -7,8 +7,9 @@ from .views import *
 
 urlpatterns = [
     path("", index, name="index"),
-    path("<int:department_id>/", by_department, name="by_department"),
-    path("update_database", test_cur, name="db_update"),
+    path("<str:department_name>/", by_department, name="by_department"),
+    path("<str:prod_url>/описание/", product_description, name="product_description"),
+    path("update_prices", update_prices, name="db_update"),
 ]
 
 if settings.DEBUG:

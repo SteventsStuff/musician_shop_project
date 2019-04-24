@@ -1,6 +1,7 @@
 @import url("nav.css");
 @import url("maincontent.css");
 @import url("header.css");
+@import url("prod_description.css");
 
 body{
 	background-color: #1C3748;
