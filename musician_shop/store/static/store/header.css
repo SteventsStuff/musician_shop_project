@@ -1,0 +1,16 @@
+header{
+	background-color: #fff;
+	display: block;
+	width: 1530px;
+	height: 50px;
+	margin: 0 auto; 
+	padding-top: 10px;
+}
+
+header h1{
+	display: block;
+	font-size: 28pt;
+	margin: auto;
+	text-align: center;
+	background: url("bg.png") left / auto 100% no-repeat;
+}
