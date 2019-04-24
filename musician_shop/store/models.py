@@ -29,7 +29,7 @@ class Store(models.Model):
     prod_currency_info = models.ForeignKey("Currency", blank=True, null=True,
                                            on_delete=models.SET_NULL, verbose_name=" Current currency")
     prod_origin_price = models.DecimalField(null=True, max_digits=10, decimal_places=2, verbose_name="Original price")
-    prod_updated_price = models.DecimalField(null=True, max_digits=10, decimal_places=2, verbose_name="Original price")
+    prod_updated_price = models.DecimalField(null=True, max_digits=10, decimal_places=2, verbose_name="Actual price")
     prod_availability = models.BooleanField(null=True, default=True)
     prod_analog = models.ForeignKey("Analog", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Analog")
     prod_accessories = models.ForeignKey("Accessories", null=True, blank=True, on_delete=models.SET_NULL,
@@ -38,7 +38,8 @@ class Store(models.Model):
                                         verbose_name="Department")
     prod_comments = models.ForeignKey("Comments", null=True, blank=True, on_delete=models.SET_NULL,
                                       verbose_name="Comments")
-    prod_rate = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True, verbose_name="Rate")
+    prod_rate = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Rate")
+    prod_counter = models.IntegerField(null=True, blank=True, default=0, verbose_name="Rate counter")
 
     def print_availability(self):
         if self.prod_availability:

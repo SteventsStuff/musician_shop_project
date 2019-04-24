@@ -30,19 +30,27 @@ def product_description(request, prod_url):
     current_product = Store.objects.get(prod_url=prod_url)
     prod_manufacturer = Manufacturer.objects.get(pk=manufacturer_id)
     departments = Department.objects.all()
-    # prod_price = count_new_price(current_product.pk-1)
 
     context = {"current_product": current_product, "prod_manufacturer": prod_manufacturer, "departments": departments}
     return render(request, "store/product_description.html", context)
 
 
-def count_new_price(item_id):
-    old_price = Store.objects.all()[item_id].prod_origin_price
-    old_currency = Currency.objects.all()[1].cur_USD
-    actual_currency = Currency.objects.all()[0].cur_USD
-    updated_price = old_price * actual_currency / old_currency
+def add_like(request, prod_url):
+    current_product = Store.objects.get(prod_url=prod_url)
+    current_product.prod_rate += decimal.Decimal(1.00)
+    current_product.prod_counter += 1
+    current_product.save()
 
-    return f"{updated_price:.2f}"
+    return product_description(request, prod_url)
+
+
+def add_dislike(request, prod_url):
+    current_product = Store.objects.get(prod_url=prod_url)
+    current_product.prod_rate -= decimal.Decimal(1.00)
+    current_product.prod_counter += 1
+    current_product.save()
+
+    return product_description(request, prod_url)
 
 
 def update_prices(request):

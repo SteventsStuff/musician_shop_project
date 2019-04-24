@@ -9,6 +9,7 @@
     <div class="item-main-prop"><strong>Материалы:</strong> {{ item.prod_materials }}</div>
     <div class="item-main-prop"><strong>Наличие:</strong> {{ item.print_availability }}</div>
     <div class="item-main-prop"><strong>Цена: </strong> <span class="price">{{ item.prod_updated_price }} UAH</span>	</div>
+    <div class="item-main-prop"><strong>Рейтинг: {{ item.prod_rate }}/{{ item.prod_counter }}</strong>  </div>
     <a href="{% url 'product_description' item.prod_url %}"><div class="prod-description-btn item-main-prop"><strong>О товаре</strong></div></a>
     <div class="buy-analog-block">
     	<a href=""><div class="buy-btn"><strong>Купить</strong></div></a>

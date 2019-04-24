@@ -11,18 +11,17 @@
 		<div class="prod_img"><img src="../../../media/{{ current_product.prod_img }}" alt="No photo"></div>
 		<div class="full_info">
 			<div>Тип продукта: {{ current_product.prod_type }}</div>
-			<div>Тип продукта: {{ current_product.pk }}</div>
 			<div>Описание: {{ current_product.prod_description }}</div>
 			<div>Материалы: {{ current_product.print_materials }}</div>
 			<div>Год производства: {{ current_product.prod_year }}</div>
-			<div>Цена: {{ current_product.prod_updated_price }} UAH</div>
+			<div>Цена: <span class="price">{{ current_product.prod_updated_price }} UAH</span></div>
 			<div>Наличие товара: {{ current_product.print_availability }}</div>
 			<div class="rate">
 				<div class="cur-rate">
-					Рейтинг: {{ current_product.prod_rate }}
+					Рейтинг: {{ current_product.prod_rate }}/{{ current_product.prod_counter }}
 				</div>
-				<a href=""><div class="like">Хороший товар</div></a>
-				<a href=""><div class="dis">Плохой товар</div></a>
+				<a href="{% url 'add_like' current_product.prod_url %}"><div class="like">Хороший товар</div></a>
+				<a href="{% url 'add_dislike' current_product.prod_url %}"><div class="dis">Плохой товар</div></a>
 			</div>
 			
 		</div>
@@ -30,6 +29,7 @@
 	<div class="manufac">
 		<div>{{ prod_manufacturer.manufac_name }}, {{ prod_manufacturer.manufac_country }}</div>
 		<div>{{ prod_manufacturer.manufac_email }}</div>
+		<div><a href="{{ prod_manufacturer.manufac_site }}">{{ prod_manufacturer.manufac_site }}</a></div>
 		<div>{{ prod_manufacturer.manufac_phone }}</div>	
 	</div>
 	<div class="assesories"></div>
