@@ -1,0 +1,38 @@
+a{
+	color: #cd2418;
+	text-decoration: none;
+}
+
+nav{
+	background-color: #fff;
+	font-size: 16pt;
+	width: 150px;
+	padding: 10px;
+	float: left;
+}
+
+nav a {
+    display: block;
+    margin: 10px 0px;
+    padding-left: 7px;
+    font-size: 17px;
+}
+
+nav a:hover{
+	font-weight: bold;
+}
+
+.nav-deps{
+	color: #1C3748; 
+}
+
+.anchor{
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 30px 30px 30px;
+	border-color: transparent transparent #fff transparent;
+	right: 50px;
+	bottom: 10px;
+	position: fixed;
+}
