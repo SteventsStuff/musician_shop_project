@@ -1,9 +1,6 @@
 from django.db import models
 
 
-import json
-
-
 class Store(models.Model):
     objects = models.Manager()
     ITEM_TYPES = (
@@ -32,12 +29,8 @@ class Store(models.Model):
     prod_updated_price = models.DecimalField(null=True, max_digits=10, decimal_places=2, verbose_name="Actual price")
     prod_availability = models.BooleanField(null=True, default=True)
     prod_analog = models.ForeignKey("Analog", null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Analog")
-    prod_accessories = models.ForeignKey("Accessories", null=True, blank=True, on_delete=models.SET_NULL,
-                                         verbose_name="Accessories")
     prod_department = models.ForeignKey("Department", null=True, blank=True, on_delete=models.SET_NULL,
                                         verbose_name="Department")
-    prod_comments = models.ForeignKey("Comments", null=True, blank=True, on_delete=models.SET_NULL,
-                                      verbose_name="Comments")
     prod_rate = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Rate")
     prod_counter = models.IntegerField(null=True, blank=True, default=0, verbose_name="Rate counter")
 
@@ -52,11 +45,6 @@ class Store(models.Model):
             return "Нету информации"
         else:
             return self.prod_materials
-
-    def sell_price(self):
-        price = self.prod_origin_price
-        # price += "1000"
-        return type(price)
 
     def __str__(self):
         return f"Product (name: {self.prod_title},  price: {self.prod_origin_price})"
@@ -119,29 +107,12 @@ class Currency(models.Model):
 class Analog(models.Model):
     analog_id_list = models.CharField(null=True, blank=True, max_length=200)
 
-    def set_analogs(self, x):
-        self.analog_id_list = json.dumps(x)
-
-    def get_analogs(self):
-        return json.loads(self.analog_id_list)
+    def __str__(self):
+        return self.analog_id_list
 
     class Meta:
         verbose_name_plural = "Analogs"
         verbose_name = "Analog"
-
-
-class Accessories(models.Model):
-    accessories_id_list = models.CharField(null=True, blank=True, max_length=200)
-
-    def set_accessories(self, x):
-        self.accessories_id_list = json.dumps(x)
-
-    def get_accessories(self):
-        return json.loads(self.accessories_id_list)
-
-    class Meta:
-        verbose_name = "Accessory"
-        verbose_name_plural = "Accessories"
 
 
 class Department(models.Model):
@@ -159,10 +130,36 @@ class Department(models.Model):
 
 
 class Comments(models.Model):
+    objects = models.Manager()
+
     content = models.TextField(null=True, blank=True, verbose_name="Content")
+    comment_to = models.ForeignKey(Store, null=True, blank=True, on_delete=models.SET_NULL,
+                                   verbose_name="Product")
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Published date")
+
+    def __str__(self):
+        return self.content
 
     class Meta:
         verbose_name_plural = "Comments"
         verbose_name = "Comment"
         ordering = ["-published"]
+
+
+class Order(models.Model):
+    object = models.Manager()
+
+    cust_first_name = models.CharField(max_length=50, verbose_name="Name")
+    cust_last_name = models.CharField(max_length=50, null=True, blank=True, verbose_name="Second name")
+    cust_address = models.CharField(max_length=250, null=True, blank=True, verbose_name="Address")
+    cust_phone = models.CharField(max_length=20, verbose_name="Phone")
+    cust_email = models.EmailField(max_length=150, verbose_name="Content")
+    product = models.ForeignKey(Store, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Product")
+
+    def __str__(self):
+        return f"Order #{self.pk}"
+
+    class Meta:
+        verbose_name_plural = "Orders"
+        verbose_name = "Order"
+        ordering = ["pk"]

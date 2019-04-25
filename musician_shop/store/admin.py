@@ -23,12 +23,11 @@ class ManufacturerAdmin(admin.ModelAdmin):
     search_fields = ('manufac_name', 'manufac_country', 'manufac_city', 'manufac_email')
 
 
-class AnalogAdmin(admin.ModelAdmin):
-    pass
-
-
-class AccessoriesAdmin(admin.ModelAdmin):
-    pass
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'cust_first_name', 'cust_last_name', 'cust_address', 'cust_phone', 'cust_email',
+                    'product',)
+    list_display_links = ('cust_first_name', 'cust_last_name')
+    search_fields = ('cust_first_name', 'cust_last_name', 'cust_address', 'cust_email')
 
 
 class DepartmentAdmin(admin.ModelAdmin):
@@ -38,13 +37,14 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 
 class CommentsAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('pk', 'content', 'comment_to', 'published')
+    list_display_links = ('content', 'published')
+    search_fields = ('published',)
 
 
 admin.site.register(Store, StockAdmin)
 admin.site.register(Manufacturer, ManufacturerAdmin)
 admin.site.register(Currency, CurrencyAdmin)
-admin.site.register(Analog, AnalogAdmin)
-admin.site.register(Accessories, AccessoriesAdmin)
+admin.site.register(Analog)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Comments, CommentsAdmin)

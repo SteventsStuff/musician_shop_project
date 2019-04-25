@@ -32,8 +32,19 @@
 		<div><a href="{{ prod_manufacturer.manufac_site }}">{{ prod_manufacturer.manufac_site }}</a></div>
 		<div>{{ prod_manufacturer.manufac_phone }}</div>	
 	</div>
-	<div class="assesories"></div>
 	<div class="analog"></div>
-	<div class="comments"></div>
+	<div class="comments">
+		{% for comment in comments %}
+		<div class="actual-comment">{{ comment.content }}</div>
+		<div class="comment-date">{{ comment.published }}</div>
+		{% endfor %}
+		<div class="add-comment">
+			<form method="post">
+				{% csrf_token %}
+				<input type="text">
+				<input type="submit" value="Добавить">
+			</form>
+		</div>
+	</div>
 </div>
 {% endblock %}
