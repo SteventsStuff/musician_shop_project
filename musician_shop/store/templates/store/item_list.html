@@ -12,7 +12,7 @@
     <div class="item-main-prop"><strong>Рейтинг: {{ item.prod_rate }}/{{ item.prod_counter }}</strong>  </div>
     <a href="{% url 'product_description' item.prod_url %}"><div class="prod-description-btn item-main-prop"><strong>О товаре</strong></div></a>
     <div class="buy-analog-block">
-    	<a href=""><div class="buy-btn"><strong>Купить</strong></div></a>
+    	<a href="{% url 'order' %}"><div class="buy-btn"><strong>Купить</strong></div></a>
     	<a href="{{ item.prod_analog }}"><div class="analog-btn"><strong>Аналог</strong></div></a>
 	</div>
 </div>

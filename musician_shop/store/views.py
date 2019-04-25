@@ -1,10 +1,35 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 from .parsers.privatbak_currency_parser import get_privabank_currency
 from .models import *
+from .forms import CommentForm
 import datetime
 import decimal
+
+
+class CommentCreateView(CreateView):
+    template_name = 'store/product_description.html'
+    form_class = CommentForm
+    success_url = reverse_lazy("index")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comments.objects.all()
+        return context
+
+
+class OrderCreateView(CreateView):
+    template_name = 'store/order_form.html'
+    form_class = CommentForm
+    success_url = reverse_lazy("index")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['departments'] = Department.objects.filter(department_name=department_name).values()[0]['id']
+        return context
 
 
 def index(request):
@@ -29,9 +54,11 @@ def product_description(request, prod_url):
     manufacturer_id = Store.objects.filter(prod_url=prod_url).values()[0]['prod_manufacturer_id_id']
     current_product = Store.objects.get(prod_url=prod_url)
     prod_manufacturer = Manufacturer.objects.get(pk=manufacturer_id)
+    comments = Comments.objects.filter(comment_to=current_product.pk).values()
     departments = Department.objects.all()
 
-    context = {"current_product": current_product, "prod_manufacturer": prod_manufacturer, "departments": departments}
+    context = {"current_product": current_product, "prod_manufacturer": prod_manufacturer, "departments": departments,
+               "comments": comments}
     return render(request, "store/product_description.html", context)
 
 
@@ -72,3 +99,6 @@ def update_prices(request):
             store_item.save()
 
     return HttpResponse(str(curr_dict))
+
+
+

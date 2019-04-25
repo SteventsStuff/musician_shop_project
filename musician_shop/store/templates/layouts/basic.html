@@ -19,9 +19,6 @@
                     {% for department in departments %}
                     <a href="{% url 'by_department' department.department_name %}" class="nav-deps">{{ department.department_name }}</a>
                     {% endfor %}
-                    <hr>
-                    <a href="">Login</a>
-                    <a href="">Корзина</a>
                 </nav>
                 <section id="main-content">
                     {% block content %}
